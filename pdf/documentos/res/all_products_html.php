@@ -86,47 +86,72 @@ table.page_footer {width: 100%; border: none; background-color: white; padding: 
 	<table cellspacing="1" style="width: 100%; text-align: left; font-size: 11pt;">
         <thead>
 			<tr>
-				<th style="width:1%;text-align:center;font-size: 12pt;" class='midnight-blue'>#</th>
-				<th style="width:14%;text-align:center;font-size: 12pt;" class='midnight-blue'>Fecha</th>
-				<th style="width:25%;text-align:center;font-size: 12pt;" class='midnight-blue'>R.U.C</th>
-				<th style="width:39%;text-align:center;font-size: 12pt;" class='midnight-blue'>Vendedor</th>
-				<th style="width:1%;text-align:center;font-size: 12pt;" class='midnight-blue'>Estado</th>
-				<th style="width:10%;text-align:center;font-size: 12pt;" class='midnight-blue'>Total</th>
+				<th style="text-align:center;font-size: 10pt;" class='midnight-blue'>Código</th>
+				<th style="text-align:center;font-size: 10pt;" class='midnight-blue'>Producto</th>
+				<th style="text-align:center;font-size: 10pt;" class='midnight-blue'>Descripción</th>
+				<th style="text-align:center;font-size: 10pt;" class='midnight-blue'>Proveedor</th>
+				<th style="text-align:center;font-size: 10pt;" class='midnight-blue'>Cantidad</th>
+				<th style="text-align:center;font-size: 10pt;" class='midnight-blue'>Agregado</th>
+				<th style="text-align:center;font-size: 10pt;" class='midnight-blue'>Precio</th>
 			</tr>
 		</thead>
 		<tbody style="width: 100% !important; text-align: left; font-size: 9pt;">
 		<?php
- 		
-		?>
+        	$q = mysqli_real_escape_string($con,(strip_tags($_REQUEST['q'], ENT_QUOTES)));
+        	$id_categoria =intval($_REQUEST['id_categoria']);
+			$aColumns = array('codigo_producto', 'nombre_producto','proveedor_producto','cantidad');
+			$sTable = "products";
+			$sWhere = "";
+			$sWhere = "WHERE (";
+			for ( $i=0 ; $i<count($aColumns) ; $i++ ){
+				$sWhere .= $aColumns[$i]." LIKE '%".$q."%' OR ";
+			}
+			$sWhere = substr_replace( $sWhere, "", -3 );
+			$sWhere .= ')';
+			if ($id_categoria>0){
+				$sWhere .=" and id_categoria='$id_categoria'";
+			}
+		
+			$sWhere.=" order by id_producto desc";
+			$sql="SELECT * FROM  $sTable $sWhere";
+			$query = mysqli_query($con, $sql);
+			while ($row=mysqli_fetch_array($query)){
+						$codigo_producto=$row['codigo_producto'];
+						$nombre_producto=$row['nombre_producto'];
+						$descripcion_producto=$row['descripcion_producto'];
+						$proveedor_producto=$row['proveedor_producto'];
+						$cantidad=$row['cantidad'];
+						$date_added= date('d/m/Y', strtotime($row['date_added']));
+						$precio_producto=$row['precio_producto'];
+					?>
 			<tr>
-				<td style="width: 1%;text-align: centerfont-size: 11pt;" class="silver">
-					<?php echo $numero_factura; ?>		
+				<td style="width: 1%;text-align: center;font-size: 8pt;" class="silver">
+					<?php echo $codigo_producto; ?>		
 				</td>
-				<td style="width: 14%;text-align:center; font-size: 11pt;" class="silver">
-					<?php echo $fecha; ?>		
+				<td style="width: 20%;text-align:center; font-size: 8pt;" class="silver">
+					<?php echo $nombre_producto; ?>		
 				</td>
-				<td style="width: 25%;text-align: right;font-size: 11pt;" class="silver">
-					<?php echo $RUC_cliente; ?>		
+				<td style="width: 30%;text-align: right;font-size: 8pt;" class="silver">
+					<?php echo $descripcion_producto; ?>		
 				</td>
-				<td style="width: 39%;text-align: center;font-size: 11pt;" class="silver">
-					<?php echo $nombre_vendedor; ?>		
+				<td style="width: 10%;text-align: center;font-size: 8pt;" class="silver">
+					<?php echo  $proveedor_producto;?>		
 				</td>
-				<td style="width: 1%;text-align: center;font-size: 11pt;" class="silver">
-					<?php echo $text_estado; ?>		
+				<td style="width: 1%;text-align: center;font-size: 8pt;" class="silver">
+					<?php echo $cantidad; ?>		
 				</td>
-				<td style="width: 10%;text-align: right;font-size: 11pt;" class="silver">
-					<?php echo $total_venta; ?>		
+				<td style="width: 5%;text-align: center;font-size: 8pt;" class="silver">
+					<?php echo $date_added; ?>		
+				</td>
+				<td style="width: 10%;text-align: right;font-size: 8pt;" class="silver">
+					<?php echo $precio_producto; ?>		
 				</td>
 			</tr>
 		<?php
 		}
 		?>
 		</tbody>
-		
-        
-   
     </table>
-	
 	<hr>
 	<page_footer>
 		<div style="font-size:11pt;text-align:center;font-weight:bold">________________</div>
