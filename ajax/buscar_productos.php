@@ -129,12 +129,14 @@
 					}
 					$nums++;
 				}
-				?>
+				?><tr><td colspan="10">
+					
 				<div class="clearfix"></div>
-				<div class='row text-center'>
+				<div class='row text-right'>
 					<div ><?php
 					 echo paginate($reload, $page, $total_pages, $adjacents);
 					?></div>
+				</td></tr></table>
 				</div>
 			
 			<?php
