@@ -11,24 +11,27 @@ if (isset($_POST['precio_venta'])){$precio_venta=$_POST['precio_venta'];}
 	require_once ("../config/conexion.php");//Contiene funcion que conecta a la base de datos
 	//Archivo de funciones PHP
 	include("../funciones.php");
-if (!empty($id) and !empty($cantidad) and !empty($precio_venta))
-{
-
-$pro = mysqli_query($con, "SELECT cantidad from products where id_producto = '$id'");
-$cant =0;
-
-while ($rows = mysqli_fetch_array($pro)) {
-	$cant = $rows['cantidad'];
-}
-
-if($cant >= $cantidad){
 	
-	$insert_tmp=mysqli_query($con, "INSERT INTO tmp (id_producto,cantidad_tmp,precio_tmp,session_id) VALUES ('$id','$cantidad','$precio_venta','$session_id')");
+if (!empty($id) and !empty($cantidad) and !empty($precio_venta)){
 
-	mysqli_query($con, "UPDATE products SET cantidad = cantidad - '$cantidad' where id_producto = '$id'");
+	$pro = mysqli_query($con, "SELECT cantidad from products where id_producto = '$id'");
+	$cant =0;
+
+	while ($rows = mysqli_fetch_array($pro)) {
+		$cant = $rows['cantidad'];
+	}
+
+	if($cant >= $cantidad){
+		
+		$insert_tmp=mysqli_query($con, "INSERT INTO tmp (id_producto,cantidad_tmp,precio_tmp,session_id) VALUES ('$id','$cantidad','$precio_venta','$session_id')");
+
+		mysqli_query($con, "UPDATE products SET cantidad = cantidad - '$cantidad' where id_producto = '$id'");
+	}
+
+}else{
+	echo "<script>toastr['error']('Al momento de agregar el producto no se selecciono la cantidad', 'Error')</script>";
 }
 
-}
 if (isset($_GET['id']))//codigo elimina un elemento del array
 {
 $id_tmp=intval($_GET['id']);	
