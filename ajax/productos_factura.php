@@ -9,13 +9,12 @@
 	$action = (isset($_REQUEST['action'])&& $_REQUEST['action'] !=NULL)?$_REQUEST['action']:'';
 	if($action == 'ajax'){
 		// escaping, additionally removing everything that could be (html/javascript-) code
-        $q = mysqli_real_escape_string($con,(strip_tags($_REQUEST['q'], ENT_QUOTES)));
-        $id_categoria =intval($_REQUEST['id_categoria']);
-		$aColumns = array('codigo_producto', 'nombre_producto', 'proveedor_producto', 'descripcion_producto');//Columnas de busqueda
-		 
-		$sTable = "products";
-		$sWhere = "";
-		if ( $_GET['q'] != "" ){
+         $q = mysqli_real_escape_string($con,(strip_tags($_REQUEST['q'], ENT_QUOTES)));
+         $id_categoria =intval($_REQUEST['id_categoria']);
+		 $aColumns = array('codigo_producto', 'nombre_producto','proveedor_producto','cantidad');//Columnas de busqueda
+		 $sTable = "products";
+		 $sWhere = "";
+		
 			$sWhere = "WHERE (";
 			for ( $i=0 ; $i<count($aColumns) ; $i++ )
 			{
@@ -24,10 +23,11 @@
 			$sWhere = substr_replace( $sWhere, "", -3 );
 			$sWhere .= ')';
 			if ($id_categoria>0){
-				$sWhere .=" and id_categoria='$id_categoria'";
-			}
+			$sWhere .=" and id_categoria='$id_categoria'";
 		}
-
+		
+	
+		$sWhere.=" order by id_producto desc";
 		include 'pagination.php'; //include pagination file
 		//pagination variables
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
@@ -39,7 +39,7 @@
 		$row= mysqli_fetch_array($count_query);
 		$numrows = $row['numrows'];
 		$total_pages = ceil($numrows/$per_page);
-		$reload = './index.php';
+		$reload = './productos.php';
 		//main query to fetch the data
 		$sql="SELECT * FROM  $sTable $sWhere LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
@@ -93,7 +93,7 @@
 				}
 				?>
 				<tr>
-					<td colspan=5><span class="pull-right">
+					<td colspan=10><span class="pull-right">
 					<?php
 					 echo paginate($reload, $page, $total_pages, $adjacents);
 					?></span></td>
