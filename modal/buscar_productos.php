@@ -20,12 +20,12 @@
 						</div>
 					<div class='col-md-4'>
 						<select class='form-control' name='id_categoria' id='id_categoria' onchange="load(1);">
-							<option value="">Selecciona una categoría</option>
+							<option value="0">Selecciona una categoría</option>
 							<?php 
 							$query_categoria=mysqli_query($con,"select * from categorias order by nombre_categoria");
 							while($rw=mysqli_fetch_array($query_categoria))	{
 								?>
-							<option value="<?php echo $rw['id_categoria'];?>"><?php echo $rw['nombre_categoria'];?></option>			
+								<option value="<?php echo $rw['id_categoria'];?>"><?php echo $rw['nombre_categoria'];?></option>			
 								<?php
 			 				}
 							?>
@@ -40,7 +40,6 @@
 				  </div>
 				  <div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-					
 				  </div>
 				</div>
 			  </div>
