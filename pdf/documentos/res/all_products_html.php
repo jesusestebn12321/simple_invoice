@@ -96,24 +96,7 @@ table.page_footer {width: 100%; border: none; background-color: white; padding: 
 		</thead>
 		<tbody style="width: 100% !important; text-align: left; font-size: 9pt;">
 		<?php
- 		$q = mysqli_real_escape_string($con,(strip_tags($_REQUEST['q'], ENT_QUOTES)));
-		$sTable = "facturas, clientes, users";
-		$sWhere = "";
-		$sWhere.=" WHERE facturas.id_cliente=clientes.id_cliente and facturas.id_vendedor=users.user_id";
-		$sWhere.=" order by facturas.id_factura desc";
-		//main query to fetch the data
-		$sql="SELECT * FROM  $sTable $sWhere";
-		$query = mysqli_query($con, $sql);
-		//loop through fetched data
-		while ($row=mysqli_fetch_array($query)){
-			$numero_factura=$row['numero_factura'];
-			$fecha=date("d/m/Y", strtotime($row['fecha_factura']));
-			$RUC_cliente=$row['RUC_cliente'];
-			$nombre_vendedor=$row['firstname']." ".$row['lastname'];
-			$estado_factura=$row['estado_factura'];
-			if ($estado_factura==1){$text_estado="Pagada";$label_class='label-success';}
-			else{$text_estado="Pendiente";$label_class='label-warning';}
-			$total_venta=$row['total_venta'];
+ 		
 		?>
 			<tr>
 				<td style="width: 1%;text-align: centerfont-size: 11pt;" class="silver">
