@@ -89,6 +89,7 @@ class Login
                         $_SESSION['user_login_status'] = 1;
 
                     } else {
+                        //echo '<script>alert()</script>';
                         $this->errors[] = "Usuario y/o contraseña no coinciden.";
                     }
                 } else {
