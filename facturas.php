@@ -25,10 +25,17 @@
     <div class="container">
 		<div class="panel panel-info">
 		<div class="panel-heading">
-		    <div class="btn-group pull-right">
-				<a  href="nueva_factura.php" class="btn btn-info"><span class="glyphicon glyphicon-plus" ></span>Nueva Factura</a>
-			</div>
-			<h4><i class='glyphicon glyphicon-search'></i> Buscar Facturas</h4>
+		    <div class="container-fluid">
+				<div class="col-md-2 btn-group pull-right">
+					<a id="all_facturas" href="#!" class="btn btn-info"><span class="glyphicon glyphicon-print" ></span> Imprimir</a>
+				</div>
+
+			    <div class="col-md-2 btn-group pull-right">
+					<a  href="nueva_factura.php" class="btn btn-info"><span class="glyphicon glyphicon-plus" ></span> Nueva Factura</a>
+				</div>
+
+				<h4><i class='glyphicon glyphicon-search'></i> Buscar Facturas</h4>
+		    </div>
 		</div>
 			<div class="panel-body">
 				<form class="form-horizontal" role="form" id="datos_cotizacion">
