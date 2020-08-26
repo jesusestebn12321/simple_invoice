@@ -116,7 +116,7 @@ table.page_footer {width: 100%; border: none; background-color: white; padding: 
 			$total_venta=$row['total_venta'];
 		?>
 			<tr>
-				<td style="width: 1%;text-align: centerfont-size: 11pt;" class="silver">
+				<td style="width: 1%;text-align: center;font-size: 11pt;" class="silver">
 					<?php echo $numero_factura; ?>		
 				</td>
 				<td style="width: 14%;text-align:center; font-size: 11pt;" class="silver">
