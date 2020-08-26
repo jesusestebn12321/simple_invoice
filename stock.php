@@ -26,10 +26,15 @@
      <div class="container">
 	<div class="panel panel-info">
 		<div class="panel-heading">
-		    <div class="btn-group pull-right">
+			<div class="container-fluid">
+			<div class="col-md-2 btn-group pull-right">
+				<button type='button' class="btn btn-info" id='imprimir'><span class="glyphicon glyphicon-print" ></span> Imprimir</button>
+			</div>
+		    <div class="col-md-2 btn-group pull-right">
 				<button type='button' class="btn btn-info" data-toggle="modal" data-target="#nuevoProducto"><span class="glyphicon glyphicon-plus" ></span> Nuevo Producto</button>
 			</div>
 			<h4><i class='glyphicon glyphicon-search'></i> Consultar inventario</h4>
+			</div>
 		</div>
 		<div class="panel-body">
 		
