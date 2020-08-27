@@ -98,24 +98,56 @@ table.page_footer {width: 100%; border: none; background-color: white; padding: 
 		<tbody style="width: 100% !important; text-align: left; font-size: 9pt;">
 		<?php
         	$q = mysqli_real_escape_string($con,(strip_tags($_REQUEST['q'], ENT_QUOTES)));
-        	$id_categoria =intval($_REQUEST['id_categoria']);
-			$aColumns = array('codigo_producto', 'nombre_producto','proveedor_producto','cantidad');
-			$sTable = "products";
-			$sWhere = "";
-			$sWhere = "WHERE (";
-			for ( $i=0 ; $i<count($aColumns) ; $i++ ){
-				$sWhere .= $aColumns[$i]." LIKE '%".$q."%' OR ";
-			}
-			$sWhere = substr_replace( $sWhere, "", -3 );
-			$sWhere .= ')';
-			if ($id_categoria>0){
-				$sWhere .=" and id_categoria='$id_categoria'";
-			}
-		
-			$sWhere.=" order by id_producto desc";
-			$sql="SELECT * FROM  $sTable $sWhere";
-			$query = mysqli_query($con, $sql);
-			while ($row=mysqli_fetch_array($query)){
+	        	$id_categoria =intval($_REQUEST['id_categoria']);
+				$aColumns = array('codigo_producto', 'nombre_producto','proveedor_producto','cantidad');
+				$sTable = "products";
+				
+				$sWhere.=" order by id_producto desc";
+				$sql="SELECT * FROM  products";
+				$query = mysqli_query($con, $sql);
+				$nConfig = mysqli_num_rows ($query);  
+          
+		        if ($nConfig > 0)  
+		        {  
+		            for($i=0; $i<$nConfig; $i++)  
+		            {  
+		                $verConfig = mysqli_fetch_array($query);  
+		               	
+		                $CargaConfig[$i] = array('id_producto'=>$verConfig['id_producto'],
+						'codigo_producto'=>$verConfig['codigo_producto'],
+						'nombre_producto'=>$verConfig['nombre_producto'],
+						'descripcion_producto'=>$verConfig['descripcion_producto'],
+						'proveedor_producto'=>$verConfig['proveedor_producto'],
+						'cantidad'=>$verConfig['cantidad'],
+						'date_added'=> date('d/m/Y', strtotime($verConfig['date_added'])),
+						'precio_producto'=>$verConfig['precio_producto']);
+		            }  
+		            foreach ($CargaConfig as $key=>$item) {
+		            	$cadena=$item['nombre_producto'].'-id'.$item['id_producto'];
+		            	$array_tmp[$key]=$cadena;
+		            }
+		            //setlocale(LC_COLLATE, 'es_ES.utf8');
+					asort($array_tmp, SORT_LOCALE_STRING);
+					foreach($array_tmp as $item) {
+						# code...
+						//echo $item.'<br>';
+						$split=explode('-id', $item);
+						//var_dump($split);
+						//echo '<br>';
+						$cont=0;
+						foreach ($CargaConfig as $value) {
+							# code...
+							$count++;
+							if($value['id_producto']==$split[1]){
+								$obj[$count]=$value;
+
+							}
+						}
+					} 
+		        }
+				
+			foreach ($obj as $key => $row) {
+			 	
 						$codigo_producto=$row['codigo_producto'];
 						$nombre_producto=$row['nombre_producto'];
 						$descripcion_producto=$row['descripcion_producto'];
