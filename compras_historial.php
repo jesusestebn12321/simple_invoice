@@ -5,8 +5,8 @@
         header("location: login.php");
 		exit;
         }
-	
-	$active_facturas="active";
+	$active_facturas="";
+	$active_compras="active";
 	$active_productos="";
 	$active_clientes="";
 	$active_usuarios="";	
@@ -32,19 +32,19 @@
 				</div>
 
 			    <div class="col-md-2 btn-group pull-right">
-					<a  href="nueva_factura.php" class="btn btn-info"><span class="glyphicon glyphicon-plus" ></span> Nueva Factura</a>
+					<a  href="nueva_compra.php" class="btn btn-info"><span class="glyphicon glyphicon-plus" ></span> Nueva Compra</a>
 				</div>
 
-				<h4><i class='glyphicon glyphicon-search'></i> Buscar Facturas</h4>
+				<h4><i class='glyphicon glyphicon-shopping-cart'></i> Compras</h4>
 		    </div>
 		</div>
 			<div class="panel-body">
 				<form class="form-horizontal" role="form" id="datos_cotizacion">
 				
 						<div class="form-group row">
-							<label for="q" class="col-md-2 control-label">Cliente o # de factura</label>
+							<label for="q" class="col-md-2 control-label">Numero de compra</label>
 							<div class="col-md-5">
-								<input type="text" class="form-control" id="q" placeholder="R.U.C del cliente o # de factura" onkeyup='load(1);'>
+								<input type="text" class="form-control" id="q" placeholder="" onkeyup='load(1);'>
 							</div>
 							
 							
@@ -71,7 +71,7 @@
 	include("footer.php");
 	?>
 	<script type="text/javascript" src="js/VentanaCentrada.js"></script>
-	<script type="text/javascript" src="js/facturas.js"></script>
+	<script type="text/javascript" src="js/compras.js"></script>
 	<script>
 		var date = new Date();
 		var month=date.getMonth()+1;

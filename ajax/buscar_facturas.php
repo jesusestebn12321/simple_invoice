@@ -65,6 +65,7 @@
 					<th>#</th>
 					<th>Fecha</th>
 					<th>R.U.C</th>
+					<th>Nombre Cliente</th>
 					<th>Vendedor</th>
 					<th>Estado</th>
 					<th class='text-right'>Total</th>
@@ -77,8 +78,7 @@
 						$numero_factura=$row['numero_factura'];
 						$fecha=date("d/m/Y", strtotime($row['fecha_factura']));
 						$RUC_cliente=$row['RUC_cliente'];
-						$ciudad_cliente=$row['ciudad_cliente'];
-						$telefono_cliente=$row['telefono_cliente'];
+						$nombre_cliente=$row['nombre_cliente'];
 						$nombre_vendedor=$row['firstname']." ".$row['lastname'];
 						$estado_factura=$row['estado_factura'];
 						if ($estado_factura==1){$text_estado="Pagada";$label_class='label-success';}
@@ -88,7 +88,9 @@
 					<tr>
 					<td><?php echo $numero_factura; ?></td>
 						<td><?php echo $fecha; ?></td>
-						<td><a href="#" data-toggle="tooltip" data-placement="top" title="<i class='glyphicon glyphicon-phone'></i> <?php echo $telefono_cliente;?><br><i class='glyphicon glyphicon-envelope'></i>" ><?php echo $RUC_cliente;?></a></td>
+						<td><?php echo $RUC_cliente;?></td>
+						<td><?php echo $nombre_cliente;?></td>
+
 						<td><?php echo $nombre_vendedor; ?></td>
 						<td><span class="label <?php echo $label_class;?>"><?php echo $text_estado; ?></span></td>
 						<td class='text-right'><?php echo number_format ($total_venta,2); ?></td>					

@@ -29,6 +29,9 @@
     <div class="container">
 	<div class="panel panel-info">
 		<div class="panel-heading">
+				<div class="col-md-2 btn-group pull-right">
+				<button type='button' class="btn btn-info" id='cliente'><span class="glyphicon glyphicon-print" ></span> Imprimir</button>
+			</div>
 		    <div class="btn-group pull-right">
 				<button type='button' class="btn btn-info" data-toggle="modal" data-target="#nuevoCliente"><span class="glyphicon glyphicon-plus" ></span> Nuevo Cliente</button>
 			</div>

@@ -5,8 +5,8 @@
         header("location: login.php");
 		exit;
         }
-	
-	$active_facturas="active";
+	$active_facturas="";
+	$active_compras="active";
 	$active_productos="";
 	$active_clientes="";
 	$active_usuarios="";	
@@ -15,13 +15,13 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
-	<?php include("head.php");?>
+	<?php include("../head.php");?>
 
   </head>
   <body>
 	<?php
-	include("navbar.php");
-	include("modal/print_factura.php");
+	include("../navbar.php");
+	include("../modal/print_factura.php");
 	?>  
     <div class="container">
 		<div class="panel panel-info">

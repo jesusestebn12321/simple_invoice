@@ -1,11 +1,9 @@
 <?php
-
-
+/*LISTO*/
 	include('is_logged.php');//Archivo verifica que el usario que intenta acceder a la URL esta logueado
 	/* Connect To Database*/
 	require_once ("../config/db.php");//Contiene las variables de configuracion para conectar a la base de datos
 	require_once ("../config/conexion.php");//Contiene funcion que conecta a la base de datos
-	//Archivo de funciones PHP
 	include("../funciones.php");
 	$action = (isset($_REQUEST['action'])&& $_REQUEST['action'] !=NULL)?$_REQUEST['action']:'';
 	if (isset($_GET['id'])){
@@ -19,7 +17,7 @@
 			<?php 
 		}else {
 			?>
-			<div class="alert alert-danger alert-dismissible" role="alert">
+			<div class="alert alert-warning alert-dismissible" role="alert">
 			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			  <strong>Error!</strong> Lo siento algo ha salido mal intenta nuevamente.
 			</div>
@@ -32,7 +30,7 @@
 		
 		
 	}
-	if($action == 'ajax'){
+		if($action == 'ajax'){
 		// escaping, additionally removing everything that could be (html/javascript-) code
          $q = mysqli_real_escape_string($con,(strip_tags($_REQUEST['q'], ENT_QUOTES)));
          $id_categoria =intval($_REQUEST['id_categoria']);
@@ -72,7 +70,7 @@
 		if ($numrows>0){
 			
 			?>
-			  <div class="table-responsive">
+			 <div class="table-responsive">
 			  <table class="table">
 				<tr  class="info">
 					<th>Código</th>
@@ -81,7 +79,8 @@
 					<th>Proveedor</th>
 					<th>Cantidad</th>
 					<th>Agregado</th>
-					<th class='text-right'>Precio</th>
+					<th class='text-right'>PrecioVenta</th>
+					<th class='text-right'>PrecioCompra</th>
 					<th class='text-right'>Editar Producto</th>
 					
 				</tr>
@@ -96,6 +95,7 @@
 						$cantidad=$row['cantidad'];
 						$date_added= date('d/m/Y', strtotime($row['date_added']));
 						$precio_producto=$row['precio_producto'];
+						$precioc_producto=$row['precioc_producto'];
 					?>
 
 		<input type="hidden" value="<?php echo $codigo_producto;?>" id="codigo_producto<?php echo $id_producto;?>">
@@ -105,41 +105,33 @@
 		<input type="hidden" value="<?php echo $descripcion_producto;?>" id="descripcion_producto<?php echo $id_producto;?>">
 		<input type="hidden" value="<?php echo $proveedor_producto;?>" id="proveedor_producto<?php echo $id_producto;?>">
 		<input type="hidden" value="<?php echo number_format($cantidad,0);?>" id="cantidad<?php echo $id_producto;?>">
-	
 		<input type="hidden" value="<?php echo number_format($precio_producto,2);?>" id="precio_producto<?php echo $id_producto;?>">
+	
+		<input type="hidden" value="<?php echo number_format($precioc_producto,2);?>" id="precioc_producto<?php echo $id_producto;?>">
 					<tr>
-						
-						<td><?php echo $codigo_producto; ?></td>
+					<td><?php echo $codigo_producto; ?></td>
 						<td ><?php echo $nombre_producto; ?></td>
 						<td ><?php echo $descripcion_producto; ?></td>
 						<td ><?php echo $proveedor_producto; ?></td>
 						<td ><?php echo $cantidad; ?></td>
 						<td><?php echo $date_added;?></td>
-						<td>$<span class='pull-right'><?php echo number_format($precio_producto,2);?></span></td>
-					
-
-					<td ><span class="pull-right">
+						<td><span class='pull-right'><?php echo number_format($precio_producto,2);?>$</span></td>
+						<td><span class='pull-right'><?php echo number_format($precioc_producto,2);?>$</span></td>				
+				<td ><span class="pull-right">
 					 <a class='btn btn-default' title='Stock' onclick="obtener_datos('<?php echo $id_producto;?>');" href="producto.php?id=<?php echo $id_producto;?>"><span class="glyphicon glyphicon-edit"></span>Editar</a> 
 					</td>
 					</tr>
-					</div>
 					<?php
-					if ($nums%6==0){
-						echo "<div class='clearfix'></div>";
-					}
-					$nums++;
 				}
-				?><tr><td colspan="10">
-					
-				<div class="clearfix"></div>
-				<div class='row text-right'>
-					<div ><?php
+				?>
+				<tr>
+					<td colspan=9><span class="pull-right"><?php
 					 echo paginate($reload, $page, $total_pages, $adjacents);
-					?></div>
-				</td></tr></table>
-				</div>
-			
+					?></span></td>
+				</tr>
+			  </table>
+			</div>
 			<?php
 		}
-  }
+	}
 ?>

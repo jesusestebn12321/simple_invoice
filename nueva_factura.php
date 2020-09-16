@@ -88,9 +88,11 @@
 									<option value="4">Crédito</option>
 								</select>
 							</div>
-							
+							<br>
+							<br>
+							<br>
 				<div class="col-md-12">
-					<div class="pull-right">
+					<div class="pull-letf">
 						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#nuevoProducto">
 						 <span class="glyphicon glyphicon-plus"></span> Nuevo producto
 						</button>

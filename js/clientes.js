@@ -82,20 +82,33 @@ $( "#editar_cliente" ).submit(function( event ) {
 })
 
 	function obtener_datos(id){
+		    var RUC_cliente = $("#RUC_cliente"+id).val();
 			var nombre_cliente = $("#nombre_cliente"+id).val();
+			var ciudad_cliente = $("#ciudad_cliente"+id).val();
 			var telefono_cliente = $("#telefono_cliente"+id).val();
-			var email_cliente = $("#email_cliente"+id).val();
 			var direccion_cliente = $("#direccion_cliente"+id).val();
-			var status_cliente = $("#status_cliente"+id).val();
+
 	
+			$("#mod_RUC").val(RUC_cliente);
 			$("#mod_nombre").val(nombre_cliente);
+			$("#mod_ciudad").val(ciudad_cliente);
 			$("#mod_telefono").val(telefono_cliente);
-			$("#mod_email").val(email_cliente);
 			$("#mod_direccion").val(direccion_cliente);
-			$("#mod_estado").val(status_cliente);
 			$("#mod_id").val(id);
 		
 		}
+			function VentanaCentrada(theURL,winName,features, myWidth, myHeight, isCenter) { //v3.0
+		if(window.screen)if(isCenter)if(isCenter=="true"){
+			var myLeft = (screen.width-myWidth)/2;
+			var myTop = (screen.height-myHeight)/2;
+			features+=(features!='')?',':'';
+			features+=',left='+myLeft+',top='+myTop;
+		}
+		window.open(theURL,winName,features+((features!='')?',':'')+'width='+myWidth+',height='+myHeight);
+	}
+	$('#cliente').click(function(){
+		VentanaCentrada('./pdf/documentos/all_clientes.php?Clientes','','1024','768','true');
+	});
 	
 		
 		
