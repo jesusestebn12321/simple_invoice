@@ -6,7 +6,7 @@ function load(page){
 	var id_categoria=$('#id_categoria').val();
 	$("#loader").fadeIn('slow');
 	$.ajax({
-		url:'./ajax/productos_factura.php?action=ajax&page='+page+'&q='+q+'&id_categoria='+id_categoria,
+		url:'./ajax/buscar_productos_compras.php?action=ajax&page='+page+'&q='+q+'&id_categoria='+id_categoria,
 		 beforeSend: function(objeto){
 		 $('#loader').html('<img src="./img/ajax-loader.gif"> Cargando...');
 	  },
@@ -15,8 +15,21 @@ function load(page){
 			$('#loader').html('');
 			
 		}
-	})
+	});
+	$.ajax({
+		url:'./ajax/buscar_proveedores.php',
+    	success: function(datos){
+			$("#select_proveedor").html(datos);
+		}
+	});
 }
+
+
+
+
+
+
+
 function agregar (id,stock){
 	var precio_venta=document.getElementById('precio_venta_'+id).value;
 	var cantidad=$('#cantidad_'+id).val();
@@ -70,3 +83,42 @@ function eliminar(id){
 		}
 	});
 }	
+function create_proveedor(){
+	var nombre_empresa=$('#nombre_empresa');
+	var numero_impusto=$('#numero_impusto');
+	var sitio_web=$('#sitio_web');
+	var telefono_empresa=$('#telefono_empresa');
+	var nombre_contacto=$('#nombre_contacto');
+	var apellido_contacto=$('#apellido_contacto');
+	var email=$('#email');
+	var telefono=$('#telefono');
+	var calle=$('#calle');
+	var ciudad=$('#ciudad');
+	var region=$('#region');
+	var pais=$('#pais');
+	var direccion='adads';
+	console.log(nombre_contacto.val() + ' ' + numero_impusto.val()+ ' ' +sitio_web.val()+ ' ' +telefono_empresa.val()+ ' ' +nombre_contacto.val()+ ' ' +apellido_contacto.val()+ ' ' +email.val()+ ' ' +telefono.val()+ ' ' +calle.val()+ ' ' +ciudad.val()+ ' ' +region.val()+ ' ' +pais.val());
+	$.ajax({
+		type:"POST",
+		url:"./ajax/crear_proveedor.php",
+		data:{
+			'nombre_empresa':nombre_empresa.val(),
+			'numero_impusto':numero_impusto.val(),
+			'sitio_web':sitio_web.val(),
+			'telefono_empresa':telefono_empresa.val(),
+			'nombre_contacto':nombre_contacto.val(),
+			'apellido_contacto':apellido_contacto.val(),
+			'email':email.val(),
+			'telefono':telefono.val(),
+			'direccion':direccion
+		},
+		beforeSend: function(objeto){
+			$("#resultados").html("Mensaje: Cargando...");
+	  	},
+    	success: function(datos){
+			toastr['success']('Se a creado un proveedor con exito','Exito');
+			
+			/*$().val('')*/
+		}
+	});
+}
