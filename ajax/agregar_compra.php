@@ -53,7 +53,6 @@ $simbolo_moneda=get_row('perfil','moneda', 'id_perfil', 1);
 	<th class='text-center'>CODIGO</th><br>
 	<th>PRODUCTO</th>
 	<th>DESCRIPCION</th>
-	<th>PROVEEDOR</th>
 	<th class='text-center'>CANT.</th>
 	<th class='text-right'>PRECIO UNIT.</th>
 	<th class='text-right'>PRECIO TOTAL</th>
@@ -69,7 +68,6 @@ $simbolo_moneda=get_row('perfil','moneda', 'id_perfil', 1);
 	$cantidad=$row['cantidad_tmp'];
 	$nombre_producto=$row['nombre_producto'];
 	$descripcion_producto=$row['descripcion_producto'];
-	$proveedor_producto=$row['proveedor_producto'];
 	$precio_venta=$row['precio_tmp'];
 	$precio_venta_f=number_format($precio_venta,2);//Formateo variables
 	$precio_venta_r=str_replace(",","",$precio_venta_f);//Reemplazo las comas
@@ -83,7 +81,6 @@ $simbolo_moneda=get_row('perfil','moneda', 'id_perfil', 1);
 			<td class='text-center'><?php echo $codigo_producto;?></td>
 			<td><?php echo $nombre_producto;?></td>
 			<td><?php echo $descripcion_producto;?></td>
-			<td><?php echo $proveedor_producto;?></td>
 			<td class='text-center'><?php echo $cantidad;?></td>
 			<td class='text-right'><?php echo $precio_venta_f;?></td>
 			<td class='text-right'><?php echo $precio_total_f;?></td>
@@ -97,7 +94,7 @@ $simbolo_moneda=get_row('perfil','moneda', 'id_perfil', 1);
 	
 ?>
 <tr>
-	<td class='text-right' colspan=6>SUBTOTAL <?php echo $simbolo_moneda;?></td>
+	<td class='text-right' colspan=6>TOTAL <?php echo $simbolo_moneda;?></td>
 	<td class='text-right'><?php echo number_format($subtotal,2);?></td>
 	<td></td>
 </tr>
@@ -109,11 +106,6 @@ $simbolo_moneda=get_row('perfil','moneda', 'id_perfil', 1);
 		</div>
 	<td class='text-right'></td>
 	</td>
-</tr>
-<tr>
-	<td class='text-right' colspan=6>TOTAL <?php echo $simbolo_moneda;?></td>
-	<td class='text-right'><input type="numbre" disabled value="0" id="total_neto" style="border: none"> </td>
-	<td></td>
 </tr>
 </table>
 <table>
