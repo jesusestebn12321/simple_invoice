@@ -30,27 +30,32 @@
 		<div class="panel-body">
 		<?php 
 			include("modal/buscar_productos.php");
+			include("modal/crear_proveedor.php");
 		?>
 			<form class="form-horizontal" role="form" id="datos_factura">
 				<div class="container-fluid">
-					
 					<div class="form-group row">
-						<label for="proveedor" class="col-md-1 control-label">Proveedor</label>
+						<div class="col-md-5">
+	                        <label>Proveedor</label>
+							<div class="input-group">
+								<div id="select_proveedor"></div>
+								<span class="input-group-btn">
+									<a href="#" class="btn btn-success" data-target='#crear_proveedor' data-toggle='modal'>Nuevo</a>		  
+								</span>
+							  </div>
+	                    </div>
 						<div class="col-md-3">
-							<input type="text" name="proveedor" class="form-control input-sm" id="proveedor" placeholder="Selecciona proveedor" required>
+							<label>Fecha</label>
+							<input type="text" class="form-control" id="fecha" value="<?php echo date("d/m/Y");?>" readonly>							
 						</div>
-						<label for="tel2" class="col-md-1 control-label">Fecha</label>
-						<div class="col-md-3">
-							<input type="text" class="form-control input-sm" id="fecha" value="<?php echo date("d/m/Y");?>" readonly>
-						</div>
-						<div class="col-md-3">
+						<div class="col-md-4">
+							<label>Agregar producto</label><br>
 							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">
-							 <span class="glyphicon glyphicon-plus"></span> Agregar producto
+							 <span class="glyphicon glyphicon-search"></span> Buscar Productos
 							</button>
 						</div>
 					</div>
 				</div>
-			</form>	
 			
 		<div id="resultados" class='col-md-12' style="margin-top:10px">
 
@@ -64,6 +69,7 @@
 			</div>	
 		 </div>
 	</div>
+			</form>	
 	<hr>
 	<?php
 	include("footer.php");
