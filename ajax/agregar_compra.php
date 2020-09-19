@@ -25,12 +25,9 @@ if (!empty($id) and !empty($cantidad) and !empty($precio_venta)){
 		
 		$insert_tmp=mysqli_query($con, "INSERT INTO tmp (id_producto,cantidad_tmp,precio_tmp,session_id) VALUES ('$id','$cantidad','$precio_venta','$session_id')");
 
-		mysqli_query($con, "UPDATE products SET cantidad = cantidad - '$cantidad' where id_producto = '$id'");
+		mysqli_query($con, "UPDATE products SET cantidad = cantidad + '$cantidad' where id_producto = '$id'");
 	}
 
-}else{
-
-	echo "<script>toastr['success']('El producto fue eliminado', 'Exito')</script>";
 }
 
 if (isset($_GET['id']))//codigo elimina un elemento del array
@@ -61,9 +58,11 @@ $simbolo_moneda=get_row('perfil','moneda', 'id_perfil', 1);
 <?php
 	$sumador_total=0;
 	$sql=mysqli_query($con, "select * from products, tmp where products.id_producto=tmp.id_producto and tmp.session_id='".$session_id."'");
+	$cont=0;
 	while ($row=mysqli_fetch_array($sql))
 	{
 	$id_tmp=$row["id_tmp"];
+	$id_producto=$row['id_producto'];
 	$codigo_producto=$row['codigo_producto'];
 	$cantidad=$row['cantidad_tmp'];
 	$nombre_producto=$row['nombre_producto'];
@@ -78,6 +77,7 @@ $simbolo_moneda=get_row('perfil','moneda', 'id_perfil', 1);
 	
 		?>
 		<tr>
+			<input type="hidden" id="id_producto_compra<?php echo $cont;?>" value="<?php echo $id_producto?>">
 			<td class='text-center'><?php echo $codigo_producto;?></td>
 			<td><?php echo $nombre_producto;?></td>
 			<td><?php echo $descripcion_producto;?></td>
@@ -87,12 +87,15 @@ $simbolo_moneda=get_row('perfil','moneda', 'id_perfil', 1);
 			<td class='text-center'><a href="#" onclick="eliminar('<?php echo $id_tmp ?>')"><i class="glyphicon glyphicon-trash"></i></a></td>
 		</tr>		
 		<?php
+	$cont++;
 	}
 	$impuesto=get_row('perfil','impuesto', 'id_perfil', 1);
 	$descuento=get_row('perfil','descuento', 'id_perfil', 1);
 	$subtotal=number_format($sumador_total,2,'.','');
 	
 ?>
+	<input type="hidden" id="contador" value="<?php echo $cont;?>">
+	<input type="hidden" id="total" value="<?php echo number_format($subtotal,2);?>">
 <tr>
 	<td class='text-right' colspan=6>TOTAL <?php echo $simbolo_moneda;?></td>
 	<td class='text-right'><?php echo number_format($subtotal,2);?></td>
@@ -102,12 +105,16 @@ $simbolo_moneda=get_row('perfil','moneda', 'id_perfil', 1);
 	<td class='text-right' colspan=6>IVA </td>
 	<td class='text-right'>
 		<div class="row">
-			<input type="number" class="" style="border-radius:10%; " required placeholder="IVA">
+			<?php 
+				$sql=mysqli_query($con, "select * from perfil");
+				$iva=mysqli_fetch_array($sql);
+			?>
+			<input type="text" value="<?php echo $iva['impuesto']?>" id="iva" style="border-radius:10%; " required>
 		</div>
 	<td class='text-right'></td>
 	</td>
 </tr>
 </table>
 <table>
-	<tr><button class="btn btn-primary btn-block">Comprar</button></tr>
+	<tr><a href="#" class="btn btn-primary btn-block" id="btn_compra_submit" onclick='crear_compra()'>Comprar</a></tr>
 </table>
