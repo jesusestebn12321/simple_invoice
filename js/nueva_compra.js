@@ -122,3 +122,34 @@ function create_proveedor(){
 		}
 	});
 }
+function crear_compra(){
+	var cont=$('#contador').val();
+	var id_proveedor=$('#proveesor_id').val();
+	var array_productos=new Array();
+	var total_compra=$('#total').val();
+	var iva=$('#iva').val();
+	var fecha=$('#fecha').val();
+	for (var i = 0; i < cont; i++) {
+		array_productos[i]= $('#id_producto_compra'+i ).val();
+	}
+	console.log(id_proveedor);
+	console.log(array_productos);
+	console.log(cont);
+	$.ajax({
+		type:'POST',
+		url:'./ajax/crear_compra.php',
+		data:{
+			'id_productos':array_productos,
+			'id_proveedor':id_proveedor,
+			'total_compra':total_compra,
+			'fecha':fecha,
+			'cont':cont,
+			'iva':iva,
+		},
+		success:function(data){
+			toastr['success']('Se a comprado con exito los productos','Exito');
+		}
+	});
+	alert();
+
+};
