@@ -96,8 +96,8 @@ function create_proveedor(){
 	var ciudad=$('#ciudad');
 	var region=$('#region');
 	var pais=$('#pais');
-	var direccion='adads';
-	console.log(nombre_contacto.val() + ' ' + numero_impusto.val()+ ' ' +sitio_web.val()+ ' ' +telefono_empresa.val()+ ' ' +nombre_contacto.val()+ ' ' +apellido_contacto.val()+ ' ' +email.val()+ ' ' +telefono.val()+ ' ' +calle.val()+ ' ' +ciudad.val()+ ' ' +region.val()+ ' ' +pais.val());
+	var codigo_postal=$('#codigo_postal');
+	var direccion= pais.val() +', '+region.val() +', '+ciudad.val() +', '+calle.val() +', '+'('+codigo_postal.val()+')';
 	$.ajax({
 		type:"POST",
 		url:"./ajax/crear_proveedor.php",
@@ -116,7 +116,7 @@ function create_proveedor(){
 			$("#resultados").html("Mensaje: Cargando...");
 	  	},
     	success: function(datos){
-			toastr['success']('Se a creado un proveedor con exito','Exito');
+			toastr['success'](datos,'Exito');
 			
 			/*$().val('')*/
 		}
@@ -147,9 +147,10 @@ function crear_compra(){
 			'iva':iva,
 		},
 		success:function(data){
-			toastr['success']('Se a comprado con exito los productos','Exito');
+			toastr['success'](data,'Exito');
+			VentanaCentrada('./pdf/documentos/compra_pdf.php?id_proveedor='+id_proveedor,'Compra','','1024','768','true');
+			$('#resultados').html('');
+			
 		}
 	});
-	alert();
-
 };
