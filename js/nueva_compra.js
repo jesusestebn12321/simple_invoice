@@ -34,12 +34,6 @@ function agregar (id,stock){
 	var precio_venta=document.getElementById('precio_venta_'+id).value;
 	var cantidad=$('#cantidad_'+id).val();
 	//Inicia validacion
-	if(stock==0){
-		console.log('el stock es menor a la cantidad');
-		toastr['error']('El producto no tiene stock.','Error');
-		document.getElementById('cantidad_'+id).focus();
-		return false;
-	}
 	if(cantidad==0){
 		document.getElementById('cantidad_'+id).focus();
 		toastr['error']('No tiene una cantidad asignada.','Error');
