@@ -118,16 +118,15 @@ table.page_footer {width: 100%; border: none; background-color: white; padding: 
 <?php
 $nums=1;
 $sumador_total=0;
-$sql=mysqli_query($con, "select * from products, tmp where products.id_producto=tmp.id_producto and tmp.session_id='".$session_id."'");
+$sql=mysqli_query($con, "SELECT historial_compras.id as historial_id, historial_compras.fecha as historial_fecha, compra_productos.id as compra_id, compra_productos.cantidad as cantidad_compra, products.* FROM historial_compras, compra_productos, products where historial_compras.id=$id_compra  and compra_productos.id_historial_compra=$id_compra and products.id_producto=compra_productos.id_producto");
 while ($row=mysqli_fetch_array($sql))
 	{
-	$id_tmp=$row["id_tmp"];
 	$id_producto=$row["id_producto"];
 	$codigo_producto=$row['codigo_producto'];
-	$cantidad=$row['cantidad_tmp'];
+	$cantidad=$row['cantidad_compra'];
 	$nombre_producto=$row['nombre_producto'];
 	$descripcion_producto=$row['descripcion_producto'];
-	$precio_venta=$row['precio_tmp'];
+	$precio_venta=$row['precio_producto'];
 	$precio_venta_f=number_format($precio_venta,2);//Formateo variables
 	$precio_venta_r=str_replace(",","",$precio_venta_f);//Reemplazo las comas
 	$precio_total=$precio_venta_r*$cantidad;
@@ -162,9 +161,13 @@ while ($row=mysqli_fetch_array($sql))
 	$total_iva=number_format($total_iva,2,'.','');
 	$total_descuento=($subtotal * $descuento)/100;
 	$total_descuento=number_format($total_descuento,2,'.','');
-	$total_factura=$subtotal+$total_iva;
+	$total_compra=$subtotal+$total_iva;
+
+
+
+
 ?>
-	  	<tr><td><br><br></td></tr>
+	  <tr><td><br></td></tr>
         <tr>
             <td colspan="5" style="widtd: 85%; text-align: right;">SUBTOTAL <?php echo $simbolo_moneda;?> </td>
             <td style="widtd: 15%; text-align: right;"> <?php echo number_format($subtotal,2);?></td>
@@ -175,7 +178,7 @@ while ($row=mysqli_fetch_array($sql))
         </tr>
         <tr>
             <td colspan="5" style="widtd: 85%; text-align: right;">TOTAL <?php echo $simbolo_moneda;?> </td>
-            <td style="widtd: 15%; text-align: right;"> <?php echo number_format($total_factura,2);?></td>
+            <td style="widtd: 15%; text-align: right;"> <?php echo number_format($total_compra,2);?></td>
         </tr>
     </table>
 	
@@ -190,6 +193,3 @@ while ($row=mysqli_fetch_array($sql))
 	<br>	
 
 </page>
-<?php 
-	mysqli_query($con, "DELETE FROM tmp WHERE session_id='".session_id()."'");
-?>
