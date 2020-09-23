@@ -7,10 +7,19 @@
 	
 	$action = (isset($_REQUEST['action'])&& $_REQUEST['action'] !=NULL)?$_REQUEST['action']:'';
 	if (isset($_GET['id'])){
-		$numero_factura=intval($_GET['id']);
-		$del1="delete from facturas where numero_factura='".$numero_factura."'";
-		$del2="delete from detalle_factura where numero_factura='".$numero_factura."'";
-		if ($delete1=mysqli_query($con,$del1) and $delete2=mysqli_query($con,$del2)){
+		$id_historial=intval($_GET['id']); 
+		$sql_buscar_productos="SELECT products.id_producto FROM historial_compras, compra_productos, products where historial_compras.id=$id_historial  and compra_productos.id_historial_compra=$id_historial and products.id_producto=compra_productos.id_producto";
+		$quey_buscar_productos=mysqli_query($con,$sql_buscar_productos);
+		while($item=mysqli_fetch_array($quey_buscar_productos)){
+			/*var_dump($item['id_producto']);*/
+			$id=$item['id_producto'];
+			$delete_producto="DELETE FROM products WHERE id_producto=$id";
+			/*echo $delete_producto;*/
+			$query_delete_producto=mysqli_query($con,$delete_producto);
+		}
+		$del1="DELETE FROM historial_compras WHERE id=$id_historial";
+		$delete1=mysqli_query($con,$del1);
+		if (true){
 			?>
 			<div class="alert alert-success alert-dismissible" role="alert">
 			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -75,17 +84,19 @@
 						$usuario=$row['firstname']." ".$row['lastname'];;
 						$neto=$row['neto'];
 						$iva=$row['iva'];
+						$total_iva=($neto * $iva )/100;
+
 					?>
 					<tr>
 						<td><?php echo $id; ?></td>
 						<td><?php echo $proveedor;?></td>
 						<td><?php echo $fecha; ?></td>
 						<td><?php echo $usuario;?></td>
-						<td><?php echo $neto; ?></td>
+						<td><?php echo $neto; ?>$</td>
 						<td><?php echo $iva; ?></td>
-						<td class='text-right'><?php echo $neto + $iva ?></td>					
+						<td class='text-right'><?php echo $total_iva+$neto ?>$</td>					
 					<td class="text-right">
-						<a href="editar_factura.php?id_factura=<?php echo $id;?>" class='btn btn-default' title='Editar factura' ><i class="glyphicon glyphicon-edit"></i></a>
+						<a href="editar_compra.php?id_historial=<?php echo $id;?>" class='btn btn-default' title='Editar factura' ><i class="glyphicon glyphicon-edit"></i></a>
 						<a href="#" class='btn btn-default' title='Borrar factura' onclick="eliminar('<?php echo $id; ?>')"><i class="glyphicon glyphicon-trash"></i> </a>
 					</td>
 						
