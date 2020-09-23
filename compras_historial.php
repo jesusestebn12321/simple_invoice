@@ -5,11 +5,7 @@
         header("location: login.php");
 		exit;
         }
-	$active_facturas="";
 	$active_compras="active";
-	$active_productos="";
-	$active_clientes="";
-	$active_usuarios="";	
 	$title="Centro Ferretero 'Bacilio'";
 ?>
 <!DOCTYPE html>
@@ -72,28 +68,5 @@
 	?>
 	<script type="text/javascript" src="js/VentanaCentrada.js"></script>
 	<script type="text/javascript" src="js/compras.js"></script>
-	<script>
-		var date = new Date();
-		var month=date.getMonth()+1;
-		var date_now = date.getFullYear()+"-0"+month+"-" +date.getDate();
-		$('#btn_print_factura').click(function(e){
-			var print_after=$('#print_after').val();
-			var print_before=$('#print_before').val();
-			console.log(print_after);
-			/*debugger;*/
-			if(print_before>print_after){
-				toastr['error']('El rango de fecha es incorrecto. "Desde tiene que ser menor que hasta" ','Error');
-				//$('#print_before').focus();
-				e.preventDefault();
-				return false;
-			}else{
-				
-					VentanaCentrada('./pdf/documentos/all_facturas.php?&print_after='+print_after+'&print_before='+print_before+'?Factura','','1024','768','true');
-					
-					
-				
-			}
-		});
-	</script>
   </body>
 </html>
