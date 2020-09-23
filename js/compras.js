@@ -19,17 +19,20 @@ function load(page){
 }
 function eliminar (id){
 	var q= $("#q").val();
-	if (confirm("Realmente deseas eliminar la factura")){	
+	if (confirm("Realmente deseas eliminar la compra")){	
 		$.ajax({
 		    type: "GET",
-		    url: "./ajax/buscar_facturas.php",
-		    data: "id="+id,"q":q,
-			 beforeSend: function(objeto){
+		    url: "./ajax/buscar_compras.php",
+		    data: {
+		    	"id":id,
+		    	"q":q
+		    },beforeSend: function(objeto){
 				$("#resultados").html("Mensaje: Cargando...");
-			  },
-		    success: function(datos){
+			},success: function(datos){
 				$("#resultados").html(datos);
 				load(1);
+				console.log(datos);
+				
 			}
 		});
 	}
