@@ -1,5 +1,11 @@
 $(document).ready(function(){
 	load(1);
+	$.ajax({
+		url:'./ajax/buscar_proveedores.php',
+    	success: function(datos){
+			$("#select_proveedor").html(datos);
+		}
+	});
 });
 function load(page){
 	var q= $("#q").val();
@@ -14,12 +20,6 @@ function load(page){
 			$(".outer_div").html(data).fadeIn('slow');
 			$('#loader').html('');
 			
-		}
-	});
-	$.ajax({
-		url:'./ajax/buscar_proveedores.php',
-    	success: function(datos){
-			$("#select_proveedor").html(datos);
 		}
 	});
 }
@@ -113,6 +113,13 @@ function create_proveedor(){
 			toastr['success'](datos,'Exito');
 			
 			/*$().val('')*/
+			$.ajax({
+				url:'./ajax/buscar_proveedores.php',
+				success: function(datos){
+					$("#select_proveedor").html(datos);
+					
+				}
+			});
 		}
 	});
 }
