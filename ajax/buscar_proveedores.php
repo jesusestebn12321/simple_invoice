@@ -10,20 +10,20 @@
 		//loop through fetched data
 		
 ?>
-			<select name="proveesor_id" class="form-control" id="proveesor_id">
-				<option value="0">Selecciona un proveedor</option>
-				<option value="0">Empresa - Contacto</option>
-				<?php
-					while ($row=mysqli_fetch_array($query)){
-							$id=$row['id'];
-							$nombre_empresa=$row['nombre_empresa'];
-							$nombre_contacto=$row['nombre_contacto'];
-							$apellido_contacto= $row['apellido_contacto'];
-					?>
-						<option value="<?php echo $id; ?>"><?php echo $nombre_empresa.' - '.$nombre_contacto.' '.$apellido_contacto; ?></option>
-				<?php
-				}
-				?>
-			</select>
-			<?php
+	<select name="proveesor_id" class="form-control" id="proveesor_id">
+		<option value="0">Selecciona un proveedor</option>
+		<option value="0">Empresa - Contacto</option>
+		<?php
+			while ($row=mysqli_fetch_array($query)){
+					$id=$row['id'];
+					$nombre_empresa=$row['nombre_empresa'];
+					$nombre_contacto=$row['nombre_contacto'];
+					$apellido_contacto= $row['apellido_contacto'];
+			?>
+				<option value="<?php echo $id; ?>"><?php echo $nombre_empresa.' - '.$nombre_contacto.' '.$apellido_contacto; ?></option>
+		<?php
+		}
+		?>
+	</select>
+<?php
 		
