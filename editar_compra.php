@@ -1,50 +1,33 @@
-  <?php
-
+<?php
 session_start();
 	if (!isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] != 1) {
         header("location: login.php");
 		exit;
         }
-	$active_facturas="active";
-	$active_productos="";
-	$active_clientes="";
-	$active_usuarios="";	
+	$active_compras="active";
 	$title="Centro Ferretero 'Bacilio'";
 	
 	/* Connect To Database*/
 	require_once ("config/db.php");//Contiene las variables de configuracion para conectar a la base de datos
 	require_once ("config/conexion.php");//Contiene funcion que conecta a la base de datos
 	
-	if (isset($_GET['id_factura']))
-	{
-		$id_factura=intval($_GET['id_factura']);
-		$campos="clientes.id_cliente,clientes.RUC_cliente, clientes.nombre_cliente,clientes.telefono_cliente,  facturas.id_vendedor, facturas.fecha_factura, facturas.condiciones, facturas.estado_factura, facturas.numero_factura";
-		$sql_factura=mysqli_query($con,"select $campos from facturas, clientes where facturas.id_cliente=clientes.id_cliente and id_factura='".$id_factura."'");
-		$count=mysqli_num_rows($sql_factura);
-		if ($count==1)
-		{
-				$rw_factura=mysqli_fetch_array($sql_factura);
-				$id_cliente=$rw_factura['id_cliente'];
-				$RUC_cliente=$rw_factura['RUC_cliente'];
-				$nombre_cliente=$rw_factura['nombre_cliente'];
-				$telefono_cliente=$rw_factura['telefono_cliente'];
-				$id_vendedor_db=$rw_factura['id_vendedor'];
-				$fecha_factura=date("d/m/Y", strtotime($rw_factura['fecha_factura']));
-				$condiciones=$rw_factura['condiciones'];
-				$estado_factura=$rw_factura['estado_factura'];
-				$numero_factura=$rw_factura['numero_factura'];
-				$_SESSION['id_factura']=$id_factura;
-				$_SESSION['numero_factura']=$numero_factura;
-		}	
-		else
-		{
-			header("location: facturas.php");
+	if (isset($_GET['id_historial'])){
+		$id_get=intval($_GET['id_historial']);
+		$sql_compra=mysqli_query($con,"SELECT historial_compras.fecha as historial_fecha, historial_compras.id as id_historial, compra_productos.id as compra_id, products.* FROM historial_compras, compra_productos, products where historial_compras.id=$id_get  and compra_productos.id_historial_compra=$id_get and products.id_producto=compra_productos.id_producto");
+
+		$count=mysqli_num_rows($sql_compra);
+		if ($count){
+			while ($row=mysqli_fetch_array($sql_compra)){
+				$historial_fecha= $row['historial_fecha'];
+				$id_historial= $row['id_historial'];
+
+			}
+		}else{
+			header("location: compras_historial.php");
 			exit;	
 		}
-	} 
-	else 
-	{
-		header("location: facturas.php");
+	}else{
+		header("location: compras_historial.php");
 		exit;
 	}
 ?>
@@ -60,72 +43,53 @@ session_start();
     <div class="container">
 	<div class="panel panel-info">
 		<div class="panel-heading">
-			<h4><i class='glyphicon glyphicon-edit'></i> Editar Factura</h4>
+			<h4><i class='glyphicon glyphicon-edit'></i> Editar Compra</h4>
 		</div>
 		<div class="panel-body">
 		<?php 
 			include("modal/buscar_productos.php");
-			include("modal/registro_clientes.php");
-			include("modal/registro_productos.php");
-		?>
-			<form class="form-horizontal" role="form" id="datos_factura">
-				<div class="form-group row">
-				  <label for="RUC_cliente" class="col-md-1 control-label">Cliente</label>
-				  <div class="col-md-3">
-					  <input type="text" class="form-control input-sm" id="RUC_cliente" placeholder="Selecciona un cliente" required value="<?php echo $RUC_cliente;?>">
-					  <input id="id_cliente" name="id_cliente" type='hidden' value="<?php echo $id_cliente;?>">	
-				  </div>
-				   <label for="nombre_cliente" class="col-md-1 control-label">Nombre</label>
-				  <div class="col-md-3">
-					  <input type="text" class="form-control input-sm" id="nombre_cliente" placeholder="Selecciona un cliente"  value="<?php echo $nombre_cliente;?>">
-					</div>
-				  <label for="tel1" class="col-md-1 control-label">Teléfono</label>
-							<div class="col-md-2">
-								<input type="text" class="form-control input-sm" id="tel1" placeholder="Teléfono" value="<?php echo $telefono_cliente;?>" readonly>
-							</div>
+			include("modal/crear_proveedor.php");
 
-				 </div>
-						<div class="form-group row">
-							<label for="empresa" class="col-md-1 control-label">Vendedor</label>
-							<div class="col-md-3">
-								<select class="form-control input-sm" id="id_vendedor" name="id_vendedor">
-									<?php
-										$sql_vendedor=mysqli_query($con,"select * from users order by lastname");
-										while ($rw=mysqli_fetch_array($sql_vendedor)){
-											$id_vendedor=$rw["user_id"];
-											$nombre_vendedor=$rw["firstname"]." ".$rw["lastname"];
-											if ($id_vendedor==$id_vendedor_db){
-												$selected="selected";
-											} else {
-												$selected="";
-											}
-											?>
-											<option value="<?php echo $id_vendedor?>" <?php echo $selected;?>><?php echo $nombre_vendedor?></option>
-											<?php
-										}
+		?>
+			<input type="hidden" id='id_get' value="<?php echo $id_get;?>">
+			<form class="form-horizontal" role="form" id="datos_compra">
+		  		<div class="form-group row">
+					<div class="col-md-5">
+                        <label>Proveedor</label>
+						<div class="input-group">
+							<?php
+							$sql="SELECT * FROM  proveedores ";
+							$query = mysqli_query($con, $sql);
+							?>
+							<select name="proveesor_id" class="form-control" id="proveesor_id">
+								<option value="0">Selecciona un proveedor</option>
+								<option value="0">Empresa - Contacto</option>
+								<?php
+									while ($row=mysqli_fetch_array($query)){
+											$id=$row['id'];
+											$nombre_empresa=$row['nombre_empresa'];
+											$nombre_contacto=$row['nombre_contacto'];
+											$apellido_contacto= $row['apellido_contacto'];
 									?>
-								</select>
-							</div>
-							<label for="tel2" class="col-md-1 control-label">Fecha</label>
-							<div class="col-md-2">
-								<input type="text" class="form-control input-sm" id="fecha" value="<?php echo $fecha_factura;?>" readonly>
-							</div>
-							<label for="email" class="col-md-1 control-label">Pago</label>
-							<div class="col-md-2">
-								<select class='form-control input-sm ' id="condiciones" name="condiciones">
-									<option value="1" <?php if ($condiciones==1){echo "selected";}?>>Efectivo</option>
-									<option value="2" <?php if ($condiciones==2){echo "selected";}?>>Cheque</option>
-									<option value="3" <?php if ($condiciones==3){echo "selected";}?>>Transferencia bancaria</option>
-									<option value="4" <?php if ($condiciones==4){echo "selected";}?>>Crédito</option>
-								</select>
-							</div>
-							<div class="col-md-2">
-								<select class='form-control input-sm ' id="estado_factura" name="estado_factura">
-									<option value="1" <?php if ($estado_factura==1){echo "selected";}?>>Pagado</option>
-									<option value="2" <?php if ($estado_factura==2){echo "selected";}?>>Pendiente</option>
-								</select>
-							</div>
-						</div>
+										<option value="<?php echo $id; ?>"><?php echo $nombre_empresa.' - '.$nombre_contacto.' '.$apellido_contacto; ?></option>
+								<?php
+								}
+								?>
+							</select>
+							<span class="input-group-btn">
+								<a href="#" class="btn btn-success" data-target='#crear_proveedor' data-toggle='modal'>Nuevo</a>		  
+							</span>
+						  </div>
+                    </div>
+	                <div class="col-md-3">
+						<label>Fecha</label>
+						<input type="text" class="form-control" id="fecha" value="<?php echo $historial_fecha;?>" readonly>							
+					</div>
+					<div class="col-md-3">
+						<label>Compra N°</label>
+						<input type="text" class="form-control" id="id_historial" value="<?php echo $id_historial;?>" readonly>							
+					</div>   
+				</div>
 				
 				
 				<div class="col-md-12">
@@ -133,25 +97,19 @@ session_start();
 						<button type="submit" class="btn btn-default">
 						  <span class="glyphicon glyphicon-refresh"></span> Actualizar datos
 						</button>
-						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#nuevoProducto">
-						 <span class="glyphicon glyphicon-plus"></span> Nuevo producto
-						</button>
-						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#nuevoCliente">
-						 <span class="glyphicon glyphicon-user"></span> Nuevo cliente
-						</button>
 						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">
 						 <span class="glyphicon glyphicon-search"></span> Agregar productos
 						</button>
-						<button type="button" class="btn btn-default" onclick="imprimir_factura('<?php echo $id_factura;?>')">
+						<button type="button" class="btn btn-default" onclick="imprimir_compra('<?php echo $id_get;?>')">
 						  <span class="glyphicon glyphicon-print"></span> Imprimir
 						</button>
 					</div>	
 				</div>
 			</form>	
 			<div class="clearfix"></div>
-				<div class="editar_factura" class='col-md-12' style="margin-top:10px"></div><!-- Carga los datos ajax -->	
+				<div class="editar_compra" class='col-md-12' style="margin-top:10px"></div> <!-- Carga los datos ajax	-->
 			
-		<div id="resultados" class='col-md-12' style="margin-top:10px"></div><!-- Carga los datos ajax -->			
+		<div id="resultados" class='col-md-12' style="margin-top:10px"></div> <!-- Carga los datos ajax	-->
 			
 		</div>
 	</div>		
@@ -162,7 +120,9 @@ session_start();
 	include("footer.php");
 	?>
 	<script type="text/javascript" src="js/VentanaCentrada.js"></script>
-	<script type="text/javascript" src="js/editar_factura.js"></script>
+	<script type="text/javascript" src="js/editar_compra.js"></script>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
   </body>
 </html>
