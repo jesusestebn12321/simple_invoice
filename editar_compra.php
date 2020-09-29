@@ -94,7 +94,7 @@ session_start();
 				
 				<div class="col-md-12">
 					<div class="pull-right">
-						<button type="submit" class="btn btn-default">
+						<button type="button" class="btn btn-default">
 						  <span class="glyphicon glyphicon-refresh"></span> Actualizar datos
 						</button>
 						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">
