@@ -21,7 +21,7 @@ if (!empty($id) and !empty($cantidad) and !empty($precio_venta)){
 		$cant = $rows['cantidad'];
 	}
 
-	if($cant > $cantidad or $cant < $cantidad){
+	if($cant){
 		
 		$insert_tmp=mysqli_query($con, "INSERT INTO tmp (id_producto,cantidad_tmp,precio_tmp,session_id) VALUES ('$id','$cantidad','$precio_venta','$session_id')");
 
