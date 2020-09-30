@@ -1,15 +1,7 @@
 <?php
-session_start();
-	if (!isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] != 1) {
-        header("location: login.php");
-		exit;
-        }
-	$active_compras="active";
-	$title="Centro Ferretero 'Bacilio'";
-	
-	/* Connect To Database*/
-	require_once ("config/db.php");//Contiene las variables de configuracion para conectar a la base de datos
-	require_once ("config/conexion.php");//Contiene funcion que conecta a la base de datos
+	$widget_active=['compra'=>ture];
+	$title="Editar Compra";
+    include("head.php");	
 	
 	if (isset($_GET['id_historial'])){
 		$id_get=intval($_GET['id_historial']);
@@ -30,27 +22,15 @@ session_start();
 		header("location: compras_historial.php");
 		exit;
 	}
+	include("modal/buscar_productos.php");
+	include("modal/crear_proveedor.php");
 ?>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <?php include("head.php");?>
-  </head>
-  <body>
-	<?php
-	include("navbar.php");
-	?>  
-    <div class="container">
-	<div class="panel panel-info">
-		<div class="panel-heading">
-			<h4><i class='glyphicon glyphicon-edit'></i> Editar Compra</h4>
+    <div class="content">
+	<div class="box box-info">
+		<div class="box-header">
+			<h4 class="box-title"><i class='glyphicon glyphicon-edit'></i> Editar Compra</h4>
 		</div>
-		<div class="panel-body">
-		<?php 
-			include("modal/buscar_productos.php");
-			include("modal/crear_proveedor.php");
-
-		?>
+		<div class="box-body">
 			<input type="hidden" id='id_get' value="<?php echo $id_get;?>">
 			<form class="form-horizontal" role="form" id="datos_compra">
 		  		<div class="form-group row">
@@ -124,5 +104,6 @@ session_start();
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
+	</div>
   </body>
 </html>

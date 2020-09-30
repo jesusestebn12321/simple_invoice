@@ -1,31 +1,15 @@
 <?php
-
-	session_start();
-	if (!isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] != 1) {
-        header("location: login.php");
-		exit;
-        }
-	
-	$active_facturas="active";
-	$active_productos="";
-	$active_clientes="";
-	$active_usuarios="";	
-	$title="Centro Ferretero 'Bacilio'";
-?>
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-	<?php include("head.php");?>
-
-  </head>
-  <body>
-	<?php
-	include("navbar.php");
+	$widget_active=["facturas"=>true];
+	$title="Facturas";
+ 
+	include("head.php");
 	include("modal/print_factura.php");
-	?>  
-    <div class="container">
-		<div class="panel panel-info">
-		<div class="panel-heading">
+
+?>
+    <!-- Main content -->
+    <section class="content">
+		<div class="box box-info">
+		<div class="box-header">
 		    <div class="container-fluid">
 				<div class="col-md-2 btn-group pull-right">
 					<a href="#!" class="btn btn-info" data-toggle='modal' data-target='#print_factura'><span class="glyphicon glyphicon-print" ></span> Imprimir</a>
@@ -35,10 +19,10 @@
 					<a  href="nueva_factura.php" class="btn btn-info"><span class="glyphicon glyphicon-plus" ></span> Nueva Factura</a>
 				</div>
 
-				<h4><i class='glyphicon glyphicon-search'></i> Buscar Facturas</h4>
+				<h4 class="box-title"><i class='glyphicon glyphicon-search'></i> Buscar Facturas</h4>
 		    </div>
 		</div>
-			<div class="panel-body">
+			<div class="box-body">
 				<form class="form-horizontal" role="form" id="datos_cotizacion">
 				
 						<div class="form-group row">
@@ -65,8 +49,9 @@
 			</div>
 		</div>	
 		
-	</div>
-	<hr>
+	</section>
+	
+
 	<?php
 	include("footer.php");
 	?>
@@ -95,5 +80,7 @@
 			}
 		});
 	</script>
+	
+	</div>
   </body>
 </html>

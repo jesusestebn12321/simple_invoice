@@ -1,31 +1,15 @@
 <?php
-	
-	session_start();
-	if (!isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] != 1) {
-        header("location: login.php");
-		exit;
-        }
-
-	/* Connect To Database*/
-	require_once ("config/db.php");//Contiene las variables de configuracion para conectar a la base de datos
-	require_once ("config/conexion.php");//Contiene funcion que conecta a la base de datos
-	
-	$active_productos="active";
-	$title="Centro Ferretero 'Bacilio'";
+	$widget_active=["producto"=>true];
+	$title="Productos";
+ 
+	include("head.php");
+	include("modal/registro_productos.php");
+	include("modal/editar_productos.php");
 ?>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <?php include("head.php");?>
-  </head>
-  <body>
-	<?php
-	include("navbar.php");
-	?>
-	
-     <div class="container">
-	<div class="panel panel-info">
-		<div class="panel-heading">
+
+<div class="content">
+	<div class="box box-info">
+		<div class="box-header">
 			<div class="container-fluid">
 			<div class="col-md-2 btn-group pull-right">
 				<button type='button' class="btn btn-info" id='imprimir'><span class="glyphicon glyphicon-print" ></span> Imprimir</button>
@@ -33,18 +17,14 @@
 		    <div class="col-md-2 btn-group pull-right">
 				<button type='button' class="btn btn-info" data-toggle="modal" data-target="#nuevoProducto"><span class="glyphicon glyphicon-plus" ></span> Nuevo Producto</button>
 			</div>
-			<h4><i class='glyphicon glyphicon-search'></i> Consultar inventario</h4>
+			<h4 class="box-title"><i class='glyphicon glyphicon-search'></i> Consultar inventario</h4>
 			</div>
 		</div>
-		<div class="panel-body">
+		<div class="box-body">
 		
 			
 			
-			<?php
-			include("modal/registro_productos.php");
-			include("modal/editar_productos.php");
-			?>
-			<form class="form-horizontal" role="form" id="datos">
+						<form class="form-horizontal" role="form" id="datos">
 				
 						
 				<div class="row">
@@ -88,13 +68,10 @@
 </div>
 		 
 	</div>
-	<hr>
 	<?php
 	include("footer.php");
 	?>
 	<script type="text/javascript" src="js/productos.js"></script>
-  </body>
-</html>
 <script>
 function eliminar (id){
 		var q= $("#q").val();
@@ -146,3 +123,6 @@ $( "#guardar_producto" ).submit(function( event ) {
 })
 
 </script>
+  </div>
+  </body>
+</html>

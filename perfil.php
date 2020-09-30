@@ -1,122 +1,86 @@
 <?php
-
-	session_start();
-	if (!isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] != 1) {
-        header("location: login.php");
-		exit;
-        }
-
-	/* Connect To Database*/
-	require_once ("config/db.php");//Contiene las variables de configuracion para conectar a la base de datos
-	require_once ("config/conexion.php");//Contiene funcion que conecta a la base de datos
-	$active_facturas="";
-	$active_productos="";
-	$active_clientes="";
-	$active_usuarios="";	
-	$active_perfil="active";	
-	$title="Centro Ferretero 'Bacilio'";
-	
+	$widget_active=["configuracion"=>ture];	
+	$title="Configuración";
+	include("head.php");
 	$query_empresa=mysqli_query($con,"select * from perfil where id_perfil=1");
 	$row=mysqli_fetch_array($query_empresa);
 ?>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-	<?php include("head.php");?>
-  </head>
-  <body>
- 	<?php
-	include("navbar.php");
-	?> 
-	<div class="container">
-      <div class="row">
-      <form method="post" id="perfil">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 toppad" >
-   
-   
-          <div class="panel panel-info">
-            <div class="panel-heading">
-              <h3 class="panel-title"><i class='glyphicon glyphicon-cog'></i> Configuración</h3>
+<div class="content">
+    <form method="post" id="perfil">
+        <div class="box box-info">
+            <div class="box-header">
+              <h3 class="box-title"><i class='glyphicon glyphicon-cog'></i> Configuración</h3>
             </div>
-  
-                <div class=" col-md-9 col-lg-9 "> 
-                  <table class="table table-condensed">
-                    <tbody>
-                      <tr> 
-                        <td>IVA (%):</td>
-                        <td><input type="text" class="form-control input-sm" required name="impuesto" value="<?php echo $row['impuesto']?>"></td>
-                      </tr>
-					  <tr>
-                        <td>Simbolo de moneda:</td>
-                        <td>
-							<select class='form-control input-sm' name="moneda" required>
-										<?php 
-											$sql="select name, symbol from  currencies group by symbol order by name ";
-											$query=mysqli_query($con,$sql);
-											while($rw=mysqli_fetch_array($query)){
-												$simbolo=$rw['symbol'];
-												$moneda=$rw['name'];
-												if ($row['moneda']==$simbolo){
-													$selected="selected";
-												} else {
-													$selected="";
-												}
+        	<div class="box-body" >
+                <div class="col-md-12 col-lg-12"> 
+                  	<table class="table table-condensed">
+                    	<tbody>
+	                      	<tr> 
+		                        <td>IVA (%):</td>
+		                        <td><input type="text" class="form-control input-sm" required name="impuesto" value="<?php echo $row['impuesto']?>"></td>
+	                      	</tr>
+							<tr>
+		                        <td>Simbolo de moneda:</td>
+		                        <td>
+									<select class='form-control input-sm' name="moneda" required>
+												<?php 
+													$sql="select name, symbol from  currencies group by symbol order by name ";
+													$query=mysqli_query($con,$sql);
+													while($rw=mysqli_fetch_array($query)){
+														$simbolo=$rw['symbol'];
+														$moneda=$rw['name'];
+														if ($row['moneda']==$simbolo){
+															$selected="selected";
+														} else {
+															$selected="";
+														}
+														?>
+														<option value="<?php echo $simbolo;?>" <?php echo $selected;?>><?php echo ($simbolo);?></option>
+														<?php
+													}
 												?>
-												<option value="<?php echo $simbolo;?>" <?php echo $selected;?>><?php echo ($simbolo);?></option>
-												<?php
-											}
-										?>
-							</select>
-						</td>
-                      </tr>
-                       <tr>
-                        <td>Descuento:</td>
-                        <td>
-							<select class='form-control input-sm' name="descuento" required>
-										<?php 
-											$sql="select name, symbol from  currencies1 group by symbol order by name ";
-											$query=mysqli_query($con,$sql);
-											while($rw=mysqli_fetch_array($query)){
-												$descuento1=$rw['symbol'];
-												$descuento=$rw['name'];
-												if ($row['descuento']==$descuento1){
-													$selected="selected";
-												} else {
-													$selected="";
-												}
+									</select>
+								</td>
+		                    </tr>
+                       		<tr>
+                        		<td>Descuento:</td>
+                        		<td>
+									<select class='form-control input-sm' name="descuento" required>
+												<?php 
+													$sql="select name, symbol from  currencies1 group by symbol order by name ";
+													$query=mysqli_query($con,$sql);
+													while($rw=mysqli_fetch_array($query)){
+														$descuento1=$rw['symbol'];
+														$descuento=$rw['name'];
+														if ($row['descuento']==$descuento1){
+															$selected="selected";
+														} else {
+															$selected="";
+														}
+														?>
+														<option value="<?php echo $descuento1;?>" <?php echo $selected;?>><?php echo ($descuento1);?></option>
+														<?php
+													}
 												?>
-												<option value="<?php echo $descuento1;?>" <?php echo $selected;?>><?php echo ($descuento1);?></option>
-												<?php
-											}
-										?>
-							</select>
-						</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  
-                  
+									</select>
+								</td>
+                      		</tr>
+                    	</tbody>
+                  	</table>
                 </div>
 				<div class='col-md-12' id="resultados_ajax"></div><!-- Carga los datos ajax -->
-              </div>
             </div>
-                 <div class="panel-footer text-center">
-                    
-                     
-                            <button type="submit" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-refresh"></i> Actualizar datos</button>
-                       
-                       
-                    </div>
-            
-          </div>
+	        <div class="box-footer text-center">              
+	            <button type="submit" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-refresh"></i> Actualizar datos</button>
+	        </div>
         </div>
-		</form>
-      </div>
-
+	</form>
+</div>
 	
 	<?php
 	include("footer.php");
 	?>
+	</div>
   </body>
 </html>
 <script type="text/javascript" src="js/bootstrap-filestyle.js"> </script>

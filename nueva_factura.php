@@ -1,43 +1,22 @@
 <?php
+	$widget_active=["facturas"=>true];
+	$title="Facturas";
+ 
+	include("head.php");
 
-/*LISTO*/
-	session_start();
-	if (!isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] != 1) {
-        header("location: login.php");
-		exit;
-        }
-	$active_facturas="active";
-	$active_productos="";
-	$active_clientes="";
-	$active_usuarios="";	
-	$title="Centro Ferretero'Bacilio'";
-	
-	/* Connect To Database*/
-	require_once ("config/db.php");//Contiene las variables de configuracion para conectar a la base de datos
-	require_once ("config/conexion.php");//Contiene funcion que conecta a la base de datos
+	include("modal/buscar_productos.php");
+	include("modal/registro_clientes.php");
+	include("modal/registro_productos.php");
+
+
 ?>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <?php include("head.php");?>
-  </head>
-  <body>
-	<?php
-	include("navbar.php");
-	?>  
-    <div class="container">
-	<div class="panel panel-info">
-		<div class="panel-heading">
+
+<section class="content">
+	<div class="box box-info">
+		<div class="box-header">
 			<h4><i class='glyphicon glyphicon-edit'></i> Nueva Factura</h4>
 		</div>
-		<div class="panel-body">
-		<?php 
-			include("modal/buscar_productos.php");
-			include("modal/registro_clientes.php");
-			include("modal/registro_productos.php");
-
-	
-		?>
+		<div class="box-body">
 			<form class="form-horizontal" role="form" id="datos_factura">
 				<div class="form-group row">
 				  <label for="RUC_cliente" class="col-md-1 control-label">Cliente</label>
@@ -118,10 +97,8 @@
 	
 
 			
-			</div>	
-		 </div>
-	</div>
-	<hr>
+		
+	</section>
 	<?php
 	include("footer.php");
 	?>
