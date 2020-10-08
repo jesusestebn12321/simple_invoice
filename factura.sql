@@ -621,7 +621,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `firstname`, `lastname`, `user_name`, `user_password_hash`, `user_email`, `date_added`) VALUES
 (1, 'Efrain Santiago', 'Vazquez Vazquez', 'Bacilio', '$2y$10$hQdnBu8UOk7eLs5TFsXJqOpxJfW64oqGIdx5Wfl3fYJOuYMBGDQu.', 'bacichato@gmal.com', '2020-07-23 19:16:55'),
-(2, 'Jose', 'Tavares', 'admin', '$2y$10$uubsztczDNzO8WVe.w4wCebF.ATW/syygbRByhTRNB0ayROodWgZu', 'josetavaresb@gmail.com', '2020-07-24 20:00:05'),
+(2, 'Admin', 'Admin', 'admin', '$2y$10$uubsztczDNzO8WVe.w4wCebF.ATW/syygbRByhTRNB0ayROodWgZu', 'Admin@gmail.com', '2020-07-24 20:00:05'),
 (4, 'root', 'root', 'adminn', '123456', 'admin@gmail.com', '0000-00-00 00:00:00');
 
 --
